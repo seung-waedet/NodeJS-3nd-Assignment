@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParserMiddleware = require('./middleware/bodyParserMiddleware');
 const inventoryRoutes = require('./routes/inventoryRoutes');
+
 const app = express();
 const port = 3000;
 

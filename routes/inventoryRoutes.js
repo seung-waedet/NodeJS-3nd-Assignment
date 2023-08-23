@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { readDataFile, writeDataFile } = require('../controllers/inventoryController');
+const { readDataFile, writeDataFile, CheckProgram } = require('../controllers/inventoryController');
 
-router.post('/', async (req, res) => {
+router.post('/', CheckProgram, async (req, res) => {
     const inventoryList = await readDataFile();
     inventoryList.push(req.body);
     await writeDataFile(inventoryList);
