@@ -1,0 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const { CreateUser, apiKeyAuth } = require('../controllers/usersControllers')
+
+router.post('/', CreateUser)
+
+module.exports = router;

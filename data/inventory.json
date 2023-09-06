@@ -1,1 +1,32 @@
-[{"name":"Book","price":300,"size":"m","id":1},{"name":"Pen","price":20,"size":"m","id":2},{"name":"Shirt","price":2000,"size":"xl","id":3},{"name":"Pen","price":20,"size":"m","id":2,"program":"python"},{"name":"Pen","price":20,"size":"m","id":2,"program":"product"}]
+[
+    {
+        "name": "Book",
+        "price": 300,
+        "size": "m",
+        "id": 1
+    },
+    {
+        "name": "Pen",
+        "price": 20000,
+        "size": "l",
+        "id": 2
+    },
+    {
+        "name": "Shirt",
+        "price": 2000,
+        "size": "xl",
+        "id": 3
+    },
+    {
+        "name": "Pen",
+        "price": 20,
+        "size": "m",
+        "id": 4
+    },
+    {
+        "name": "biro",
+        "price": 95,
+        "size": "m",
+        "id": 5
+    }
+]

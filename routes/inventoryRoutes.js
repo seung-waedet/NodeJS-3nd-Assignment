@@ -1,18 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const { readDataFile, writeDataFile, CheckProgram } = require('../controllers/inventoryController');
+const { CheckSizes, queryInventory } = require('../controllers/inventoryController');
+const { writeDataFile, readDataFile } = require('../services/file.service');
+const { apiKeyAuth, checkAdmin } = require('../controllers/usersControllers');
 
-router.post('/', CheckProgram, async (req, res) => {
+
+router.post('/', apiKeyAuth, checkAdmin, CheckSizes, async (req, res) => {
     const inventoryList = await readDataFile();
     inventoryList.push(req.body);
     await writeDataFile(inventoryList);
     res.json({ data: inventoryList });
 });
 
-router.get('/', async (req, res) => {
-    const inventoryList = await readDataFile();
-    res.json({ data: inventoryList });
-});
+
+
+router.get('/', queryInventory);
+
+// router.get('/', async (req, res) => {
+
+// })
 
 router.get('/:id', async (req, res) => {
     const inventoryList = await readDataFile();
@@ -26,7 +32,7 @@ router.get('/:id', async (req, res) => {
     res.json({ data: item });
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', apiKeyAuth, checkAdmin, async (req, res) => {
     const inventoryList = await readDataFile();
     const id = parseInt(req.params.id);
     const itemIndex = inventoryList.findIndex((item) => item.id === id);
@@ -42,8 +48,8 @@ router.patch('/:id', async (req, res) => {
     res.json({ data: updatedItem });
 });
 
-router.delete('/:id', async (req, res) => {
-    const inventoryList = await readDataFilec();
+router.delete('/:id', apiKeyAuth, checkAdmin, async (req, res) => {
+    const inventoryList = await readDataFile();
     const id = parseInt(req.params.id);
     const newInventoryList = inventoryList.filter((item) => item.id !== id);
 

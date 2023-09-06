@@ -1,42 +1,48 @@
-const fs = require('fs/promises');
-const path = require('path');
-
-const dataFilePath = path.join(__dirname, '../data/inventory.json');
-
-const readDataFile = async () => {
-    try {
-        const data = await fs.readFile(dataFilePath, 'utf-8');
-        return JSON.parse(data);
-    } catch (error) {
-        console.log(error);
-        return [];
-    }
-};
-
-const writeDataFile = async (data) => {
-    try {
-        await fs.writeFile(dataFilePath, JSON.stringify(data));
-    } catch (error) {
-        console.log(error);
-    }
-};
+const { readDataFile } = require("../services/file.service");
 
 
-const CheckProgram = (req, res, next) => {
-    const validPrograms = ['nodejs', 'python', 'product'];
+const CheckSizes = (req, res, next) => {
+    const validSizes = ['s', 'l', 'm', 'xl'];
 
-    if (!validPrograms.includes(req.body.program)) {
+    if (!validSizes.includes(req.body.size)) {
         return res.status(422).json({
             data: null,
-            error: 'Invalid program, use nodejs, python or product'
+            error: 'Invalid size, use m, l, s or xl'
         })
     }
 
     next()
 }
 
+const queryInventory = async (req, res) => {
+    const inventoryList = await readDataFile();
+    const validSizes = ['s', 'l', 'm', 'xl'];
+
+    if (!Object.keys(req.query).length) {
+        return res.status(200).json({
+            data: inventoryList
+        })
+    }
+
+    if (!validSizes.includes(req.query.size)) {
+        return res.status(404).json({ error: 'Invalid size' });
+    }
+
+    const filteredInventory = inventoryList.filter((item) => item.size === req.query.size);
+
+    if (!filteredInventory.length) {
+        return res.status(404).json({ error: 'Size not available' })
+    }
+
+    return res.status(200).json({
+        data: filteredInventory
+    })
+
+
+
+}
+
 module.exports = {
-    readDataFile,
-    writeDataFile,
-    CheckProgram,
+    CheckSizes,
+    queryInventory
 };

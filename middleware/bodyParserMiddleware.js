@@ -2,4 +2,8 @@ const express = require('express');
 
 const bodyParserMiddleware = express.json();
 
-module.exports = bodyParserMiddleware;
+
+
+module.exports = bodyParserMiddleware
+
+
